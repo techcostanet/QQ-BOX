@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Coleção de Tenants e Catálogo de Cosméticos (Produtos, Lotes, Templates)
+    match /tenants/{tenantId} {
+      allow read: if true;
+      allow write: if true;
+
+      match /{allSubcollections=**} {
+        allow read: if true;
+        allow write: if true;
+      }
+    }
+
+    // 2. Caixas Físicas Serializadas (Boxes)
+    match /boxes/{serialNumber} {
+      // Leitura pública irrestrita para o consumidor final ao escanear o QR Code
+      allow read: if true;
+      // Criação na bancada de montagem e atualização de telemetria
+      allow write: if true;
+
+      // Subcoleção de Telemetria de Leituras (Scans)
+      match /scans/{scanId} {
+        allow read: if true;
+        allow create: if true;
+      }
+    }
+  }
+}
