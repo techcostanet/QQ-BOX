@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import LoginScreen from './components/LoginScreen';
 import AssemblyStation from './components/AssemblyStation';
 import ThermalLabelModal from './components/ThermalLabelModal';
 import ConsumerMobileView from './components/ConsumerMobileView';
 import TraceabilityRecall from './components/TraceabilityRecall';
 import CatalogManager from './components/CatalogManager';
 import TenantSettings from './components/TenantSettings';
+import { APP_VERSION, BUILD_DATE_BR, GOOGLE_PROJECT_ID } from './version';
 
 import {
   INITIAL_TENANTS,
@@ -37,6 +39,16 @@ export default function App() {
   const [lots, setLots] = useState(INITIAL_LOTS);
   const [kitTemplates, setKitTemplates] = useState(INITIAL_KIT_TEMPLATES);
   const [boxes, setBoxes] = useState(INITIAL_BOXES);
+
+  // Estado de Autenticação com persistência em localStorage
+  const [authUser, setAuthUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('qqbox_auth_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
 
   // Navegação
   const [activeTab, setActiveTab] = useState('assembly'); // 'assembly' | 'traceability' | 'consumer' | 'catalog' | 'settings'
@@ -155,9 +167,39 @@ export default function App() {
     }
   };
 
+  const handleLogin = (user) => {
+    setAuthUser(user);
+    try {
+      localStorage.setItem('qqbox_auth_user', JSON.stringify(user));
+    } catch (e) {
+      console.warn('Erro ao persistir sessão:', e);
+    }
+  };
+
+  const handleLogout = () => {
+    setAuthUser(null);
+    try {
+      localStorage.removeItem('qqbox_auth_user');
+    } catch (e) {
+      console.warn('Erro ao remover sessão:', e);
+    }
+  };
+
+  // Se não estiver autenticado, exibe a Tela de Login com Versão visível
+  if (!authUser) {
+    return (
+      <LoginScreen
+        tenants={tenants}
+        activeTenantId={activeTenantId}
+        onSelectTenant={setActiveTenantId}
+        onLogin={handleLogin}
+      />
+    );
+  }
+
   return (
     <div className="app-layout">
-      {/* Barra de Navegação Superior */}
+      {/* Barra de Navegação Superior com Versão e Perfil */}
       <Navbar
         tenants={tenants}
         activeTenantId={activeTenantId}
@@ -165,6 +207,8 @@ export default function App() {
         activeTab={activeTab}
         onSelectTab={setActiveTab}
         totalBoxesCount={boxes.filter(b => b.tenantId === activeTenantId).length}
+        authUser={authUser}
+        onLogout={handleLogout}
       />
 
       {/* Conteúdo Principal */}
@@ -176,6 +220,7 @@ export default function App() {
             products={products}
             lots={lots}
             onBoxAssembled={handleBoxAssembled}
+            authUser={authUser}
           />
         )}
 
@@ -220,6 +265,25 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Rodapé do Sistema com Versão e Telemetria Google Cloud */}
+      <footer className="app-system-footer">
+        <div className="footer-inner">
+          <div className="footer-brand">
+            <span className="footer-dot"></span>
+            <span>QQ-BOX • Sistema de Rastreabilidade & Serialização</span>
+          </div>
+          <div className="footer-meta">
+            <span className="footer-badge-version">
+              Versão <strong>v{APP_VERSION}</strong>
+            </span>
+            <span className="footer-sep">•</span>
+            <span className="footer-gcp">Google Cloud: <code>{GOOGLE_PROJECT_ID}</code></span>
+            <span className="footer-sep">•</span>
+            <span className="footer-build">Build: {BUILD_DATE_BR}</span>
+          </div>
+        </div>
+      </footer>
 
       {/* Modal de Impressão da Etiqueta Térmica Zebra (ZPL e Visual) */}
       {thermalModalData && (

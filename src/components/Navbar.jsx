@@ -7,8 +7,11 @@ import {
   Package, 
   Settings, 
   CloudCheck, 
-  Printer 
+  Printer,
+  LogOut,
+  UserCheck
 } from 'lucide-react';
+import { APP_VERSION } from '../version';
 
 export default function Navbar({ 
   tenants, 
@@ -16,7 +19,9 @@ export default function Navbar({
   onSelectTenant, 
   activeTab, 
   onSelectTab,
-  totalBoxesCount 
+  totalBoxesCount,
+  authUser,
+  onLogout
 }) {
   const currentTenant = tenants.find(t => t.id === activeTenantId) || tenants[0];
 
@@ -33,7 +38,10 @@ export default function Navbar({
             <QrCode size={20} />
           </div>
           <div className="logo-meta">
-            <span className="logo-title">{currentTenant.logoText}</span>
+            <div className="logo-title-row">
+              <span className="logo-title">{currentTenant.logoText}</span>
+              <span className="system-version-pill" title="Versão do Sistema">v{APP_VERSION}</span>
+            </div>
             <span className="logo-tagline">CosmetiqCloud SaaS</span>
           </div>
         </div>
@@ -117,6 +125,29 @@ export default function Navbar({
           <Printer size={13} />
           <span>Zebra Pronta</span>
         </div>
+
+        {/* Informações do Usuário Autenticado & Logout */}
+        {authUser && (
+          <div className="navbar-user-chip">
+            <div 
+              className="navbar-user-avatar"
+              style={{ background: authUser.color || currentTenant.primaryColor }}
+            >
+              {authUser.avatar || 'OP'}
+            </div>
+            <div className="navbar-user-meta">
+              <span className="navbar-user-name">{authUser.name}</span>
+              <span className="navbar-user-role">{authUser.role || 'Operador'}</span>
+            </div>
+            <button 
+              className="btn-logout" 
+              onClick={onLogout}
+              title="Sair do sistema e voltar à tela de login"
+            >
+              <LogOut size={15} />
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );

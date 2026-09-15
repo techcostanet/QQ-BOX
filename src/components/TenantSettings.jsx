@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { isFirestoreReady, seedInitialDataIfEmpty } from '../services/firestoreService';
 import { firebaseConfig } from '../services/firebase';
+import { APP_VERSION, BUILD_DATE_BR } from '../version';
 
 export default function TenantSettings({ tenant, onUpdateTenant }) {
   const [formData, setFormData] = useState({
@@ -284,23 +285,39 @@ export default function TenantSettings({ tenant, onUpdateTenant }) {
             {/* Caixa Informativa sobre Arquitetura 100% Google Cloud & Firestore */}
             <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '16px', marginTop: '10px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#fbbf24', fontSize: '0.88rem', fontWeight: 600 }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#b45309', fontSize: '0.88rem', fontWeight: 600 }}>
                   <Flame size={18} />
                   <span>Google Cloud & Cloud Firestore</span>
                 </div>
-                <span 
-                  style={{
-                    fontSize: '0.72rem',
-                    padding: '3px 8px',
-                    borderRadius: '12px',
-                    background: isFirestoreReady() ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                    color: isFirestoreReady() ? '#34d399' : '#fbbf24',
-                    border: `1px solid ${isFirestoreReady() ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
-                    fontWeight: 600
-                  }}
-                >
-                  {isFirestoreReady() ? 'Cloud Firestore Ativo' : 'Modo Demonstração / Local'}
-                </span>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <span 
+                    style={{
+                      fontSize: '0.72rem',
+                      padding: '2px 8px',
+                      borderRadius: '12px',
+                      background: 'rgba(155, 120, 43, 0.1)',
+                      color: 'var(--brand-primary)',
+                      border: '1px solid rgba(155, 120, 43, 0.25)',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 700
+                    }}
+                  >
+                    v{APP_VERSION}
+                  </span>
+                  <span 
+                    style={{
+                      fontSize: '0.72rem',
+                      padding: '3px 8px',
+                      borderRadius: '12px',
+                      background: isFirestoreReady() ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                      color: isFirestoreReady() ? '#059669' : '#d97706',
+                      border: `1px solid ${isFirestoreReady() ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
+                      fontWeight: 600
+                    }}
+                  >
+                    {isFirestoreReady() ? 'Cloud Firestore Ativo' : 'Modo Demonstração / Local'}
+                  </span>
+                </div>
               </div>
 
               <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: '1.4', marginBottom: '12px' }}>

@@ -18,7 +18,8 @@ export default function AssemblyStation({
   kitTemplates,
   products,
   lots,
-  onBoxAssembled
+  onBoxAssembled,
+  authUser
 }) {
   const tenantKits = kitTemplates.filter(k => k.tenantId === tenant.id);
   const [selectedKitId, setSelectedKitId] = useState(tenantKits[0]?.id || '');
@@ -26,7 +27,9 @@ export default function AssemblyStation({
   // Estado das seleções de lotes para os itens da caixa atual
   // Ex: { 'prod-lec-01': 'lot-lec-esp-01', 'prod-lec-02': 'lot-lec-ser-02' }
   const [selectedLots, setSelectedLots] = useState({});
-  const [operatorName, setOperatorName] = useState('Mariana Silva (Bancada 01)');
+  const [operatorName, setOperatorName] = useState(
+    authUser ? `${authUser.name} (${authUser.badge || 'Bancada 01'})` : 'Mariana Silva (Bancada 01)'
+  );
 
   const currentKit = tenantKits.find(k => k.id === selectedKitId) || tenantKits[0];
 
