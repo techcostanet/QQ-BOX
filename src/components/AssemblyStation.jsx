@@ -184,20 +184,32 @@ export default function AssemblyStation({
             {/* Topo do Kit Selecionado */}
             <div className="kit-active-header">
               <div className="kit-active-title">
-                <span className="kit-badge-code">REF: {currentKit?.code}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span className="kit-badge-code">REF: {currentKit?.code}</span>
+                  <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>{kitProducts.length} cosméticos</span>
+                </div>
                 <h2>{currentKit?.name}</h2>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                  {currentKit?.description} &bull; Tipo de embalagem: <strong>{currentKit?.boxType}</strong>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                  {currentKit?.description} &bull; Embalagem: <strong>{currentKit?.boxType}</strong>
                 </p>
               </div>
 
-              {/* Botões de atalho de preenchimento */}
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <button className="btn-secondary btn-sm" onClick={handleAutoFillFirstActiveLots}>
-                  Preencher com Lote A
+              {/* Botões de atalho de preenchimento & Finalização Imediata */}
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <button className="btn-secondary btn-sm" onClick={handleAutoFillFirstActiveLots} title="Preenche automaticamente com o primeiro lote ativo">
+                  Auto Lote A
                 </button>
                 <button className="btn-secondary btn-sm" onClick={handleAlternativeLots} title="Simula uma caixa com lotes diferentes">
-                  Alternar p/ Lote B
+                  Alternar Lote B
+                </button>
+                <button 
+                  className="btn-primary btn-sm"
+                  disabled={!isReadyToAssemble}
+                  onClick={handleFinishAndPrint}
+                  style={{ fontWeight: 700 }}
+                >
+                  <Printer size={14} />
+                  <span>{isReadyToAssemble ? 'Finalizar & Gerar QR' : 'Aguardando Lotes'}</span>
                 </button>
               </div>
             </div>

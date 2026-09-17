@@ -111,7 +111,7 @@ export default function Navbar({
         <div 
           className="cloud-badge" 
           title="Arquitetura 100% Google Cloud & Cloud Firestore com isolamento por Tenant"
-          style={{ background: 'rgba(16, 185, 129, 0.12)', borderColor: 'rgba(16, 185, 129, 0.3)', color: '#34d399' }}
+          style={{ background: '#ecfdf5', borderColor: '#a7f3d0', color: '#047857' }}
         >
           <span className="cloud-dot"></span>
           <span>Google Firestore</span>
@@ -119,7 +119,7 @@ export default function Navbar({
 
         <div 
           className="cloud-badge" 
-          style={{ background: 'rgba(59, 130, 246, 0.1)', borderColor: 'rgba(59, 130, 246, 0.25)', color: '#60a5fa' }}
+          style={{ background: '#eff6ff', borderColor: '#bfdbfe', color: '#1d4ed8' }}
           title={`Impressora Zebra: ${currentTenant.printerSettings.model} (${currentTenant.printerSettings.connectionType})`}
         >
           <Printer size={13} />

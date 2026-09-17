@@ -32,25 +32,33 @@ export default function LoginScreen({
       name: 'Mariana Silva',
       role: 'Operadora de Bancada 01',
       badge: 'OP-4821',
-      tenantId: 'tenant-lumina-01',
+      tenantId: 'tenant-leclat',
       avatar: 'MS',
-      color: '#9b782b'
+      color: '#c27803'
     },
     {
       name: 'Carlos Mendes',
       role: 'Supervisor de Qualidade & Recall',
       badge: 'SQ-1109',
-      tenantId: 'tenant-lumina-01',
+      tenantId: 'tenant-leclat',
       avatar: 'CM',
-      color: '#1e3a2f'
+      color: '#0f766e'
     },
     {
       name: 'Dra. Vanessa Rios',
       role: 'Diretora Técnica & Rastreabilidade',
       badge: 'DT-0042',
-      tenantId: 'tenant-dermapure-02',
+      tenantId: 'tenant-dermasync',
       avatar: 'VR',
       color: '#2563eb'
+    },
+    {
+      name: 'Camila Uchoa',
+      role: 'Gestora de Bioativos & Origem',
+      badge: 'BIO-7701',
+      tenantId: 'tenant-aurabio',
+      avatar: 'CU',
+      color: '#059669'
     }
   ];
 

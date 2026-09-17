@@ -59,37 +59,37 @@ export default function TraceabilityRecall({
       </div>
 
       {/* Cartões de Indicadores Rápidos */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-        <div className="glass-card" style={{ padding: '18px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Caixas Serializadas</span>
-            <Layers size={18} style={{ color: 'var(--brand-primary)' }} />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px', marginBottom: '14px' }}>
+        <div className="glass-card" style={{ padding: '12px 16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Caixas Serializadas</span>
+            <Layers size={16} style={{ color: 'var(--brand-primary)' }} />
           </div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{totalBoxes}</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--success)' }}>100% gravadas na nuvem</div>
+          <div style={{ fontSize: '1.45rem', fontWeight: 700 }}>{totalBoxes}</div>
+          <div style={{ fontSize: '0.7rem', color: 'var(--success)', fontWeight: 600 }}>100% gravadas na nuvem</div>
         </div>
 
-        <div className="glass-card" style={{ padding: '18px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Leituras de QR Code</span>
-            <QrCode size={18} style={{ color: 'var(--info)' }} />
+        <div className="glass-card" style={{ padding: '12px 16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Leituras de QR Code</span>
+            <QrCode size={16} style={{ color: 'var(--info)' }} />
           </div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{totalScans}</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Scans realizados por clientes</div>
+          <div style={{ fontSize: '1.45rem', fontWeight: 700 }}>{totalScans}</div>
+          <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>Scans realizados por clientes</div>
         </div>
 
-        <div className="glass-card" style={{ padding: '18px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Auditoria Sanitária</span>
-            <ShieldAlert size={18} style={{ color: 'var(--warning)' }} />
+        <div className="glass-card" style={{ padding: '12px 16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Auditoria Sanitária</span>
+            <ShieldAlert size={16} style={{ color: 'var(--warning)' }} />
           </div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>Conforme</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Rastreabilidade lote a lote ativa</div>
+          <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--success)' }}>Conforme</div>
+          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Rastreabilidade lote a lote ativa</div>
         </div>
       </div>
 
       {/* Barra de Busca Reversa */}
-      <div className="glass-card" style={{ marginBottom: '24px', padding: '18px' }}>
+      <div className="glass-card" style={{ marginBottom: '14px', padding: '12px 16px' }}>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
           <div style={{ position: 'relative', flex: 1, minWidth: '280px' }}>
             <Search 
@@ -112,17 +112,28 @@ export default function TraceabilityRecall({
           )}
 
           {/* Botões de atalho rápido de busca para testes */}
-          <div style={{ display: 'flex', gap: '6px' }}>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', alignSelf: 'center' }}>Testar Lote:</span>
-            <button className="btn-secondary btn-sm" onClick={() => setSearchTerm('LT-2026-ESP01')}>
-              Lote ESP01
-            </button>
-            <button className="btn-secondary btn-sm" onClick={() => setSearchTerm('LT-2026-LIMP01')}>
-              Lote LIMP01
-            </button>
-            <button className="btn-secondary btn-sm" onClick={() => setSearchTerm('LT-2026-VITC01')}>
-              Lote VITC01
-            </button>
+          <div style={{ display: 'flex', gap: '5px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Atalhos Rápidos:</span>
+            {lots.filter(l => l.tenantId === tenant.id).slice(0, 3).map(l => (
+              <button 
+                key={l.id} 
+                className="btn-secondary btn-sm" 
+                onClick={() => setSearchTerm(l.lotNumber)}
+                title={`Buscar caixas contendo o lote ${l.lotNumber}`}
+              >
+                {l.lotNumber}
+              </button>
+            ))}
+            {tenantBoxes.length > 0 && (
+              <button 
+                className="btn-secondary btn-sm" 
+                onClick={() => setSearchTerm(tenantBoxes[0].serialNumber)}
+                title={`Buscar serial ${tenantBoxes[0].serialNumber}`}
+                style={{ fontFamily: 'var(--font-mono)' }}
+              >
+                {tenantBoxes[0].serialNumber}
+              </button>
+            )}
           </div>
         </div>
 

@@ -201,13 +201,18 @@ export const subscribeBoxes = (tenantId, callback) => {
   return onSnapshot(
     q,
     (snapshot) => {
+      const initialTenantBoxes = INITIAL_BOXES.filter(b => b.tenantId === tenantId);
       if (snapshot.empty) {
-        callback(INITIAL_BOXES.filter(b => b.tenantId === tenantId));
+        callback(initialTenantBoxes);
       } else {
         const list = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-        // Ordena por data de montagem decrescente
-        list.sort((a, b) => new Date(b.assembledAt || 0) - new Date(a.assembledAt || 0));
-        callback(list);
+        // Mescla garantindo que todas as caixas de demonstração e as caixas criadas existam
+        const map = new Map();
+        initialTenantBoxes.forEach(b => map.set(b.serialNumber, b));
+        list.forEach(b => map.set(b.serialNumber, b));
+        const merged = Array.from(map.values());
+        merged.sort((a, b) => new Date(b.assembledAt || 0) - new Date(a.assembledAt || 0));
+        callback(merged);
       }
     },
     (err) => {

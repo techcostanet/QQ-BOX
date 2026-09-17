@@ -61,24 +61,24 @@ export default function ConsumerMobileView({
   return (
     <div className="consumer-preview-wrapper">
       {/* Barra de controle e seletor da caixa para teste */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', maxWidth: '800px', flexWrap: 'wrap', gap: '10px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', maxWidth: '860px', flexWrap: 'wrap', gap: '8px' }}>
         <div>
-          <h2 style={{ fontSize: '1.3rem' }}>Experiência do Consumidor (Mobile Scan)</h2>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-            É esta tela mobile elegante que abre no celular do cliente ao apontar para o QR Code da caixa.
+          <h2 style={{ fontSize: '1.2rem', marginBottom: '2px' }}>Experiência do Consumidor (Mobile Scan)</h2>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+            Esta é a tela mobile responsiva que abre no smartphone do cliente ao escanear a etiqueta Zebra.
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Caixa Selecionada:</span>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Caixa:</span>
           <select 
             value={selectedBox.serialNumber} 
             onChange={(e) => onSelectBoxSerial(e.target.value)}
-            style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}
+            style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}
           >
             {boxes.map(b => (
               <option key={b.id} value={b.serialNumber}>
-                {b.serialNumber} ({b.items.length} itens)
+                {b.serialNumber} ({b.items.length} itens • {b.scanCount || 0} scans)
               </option>
             ))}
           </select>
@@ -87,8 +87,8 @@ export default function ConsumerMobileView({
             className="btn-secondary btn-sm"
             onClick={() => setFullscreenMode(!fullscreenMode)}
           >
-            <Smartphone size={14} />
-            <span>{fullscreenMode ? 'Ver Moldura Celular' : 'Expandir'}</span>
+            <Smartphone size={13} />
+            <span>{fullscreenMode ? 'Ver Celular' : 'Expandir'}</span>
           </button>
         </div>
       </div>
